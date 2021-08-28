@@ -1,58 +1,51 @@
-import pandas as pd
-from PythonLibraries_ForBegginers.os_manager import OSManager
+from dataset import Dataset
+from profile import Profile
 
-
-class Dataset:
-    
-    def __init__(self, fileName):
-        self.pathRaw = f"./RawDatasets/{fileName}"
-        self.path = f"./Datasets/{fileName}"
-        self.cleanse_dataset(self.pathRaw)
-        # self.rawPath = 
-        pass
-    
-    def cleanse_dataset(self, filePath):
-        rawDataset = OSManager.open_pandas_csv_file(filePath)
-        dataset = pd.DataFrame({
-                                "Name": [],
-                                "Age": []
-                                })
-
-        for index, row in rawDataset.iterrows():
-            if row["nombre"] != "" and row["edad_media"] != "":
-                names = row["nombre"].lower().split()
-                newName = []
-                for name in names:
-                    newName.append(name[0].upper()+name[1:])
-                row["nombre"] = " ".join(newName)
-                row = pd.DataFrame({
-                                    "Name": [row["nombre"]],
-                                    "Age": [str(int(row["edad_media"]))]
-                                    })
-                dataset = dataset.append(row)
+class Generator:
+    def __init__(self,dataset, datasetLastName, gender):
+        self.datasetNamesObject = dataset
+        self.datasetLastNamesObject = datasetLastName
+        self.gender = gender
+        self.datasetName = self.datasetNamesObject.get_dataset()
+        self.datasetLastName = self.datasetLastNamesObject.get_dataset()
         
-        dataset.to_csv(self.path, index = False)
-        # print(dataset)
+
+    def generate_profiles(self):
+        nameReg = self.datasetName.sample()
+        lastNameReg = self.datasetLastName.sample()
+
+        # (self, name = "", lastName = "", age = "", gender = "")
+
+        name = nameReg.iloc[0]["Name"]
+        age = str(nameReg.iloc[0]["Age"])
+        # print(name)
+        lastName = lastNameReg.iloc[0]["lastName"]
+        P = Profile( name = name, lastName = lastName, age = age, gender = self.gender)
+        del(P)
+
+def generator_of_profiles(M, F, A, numberOfProfiles):
+    GM = Generator(M, A, "M")
+    GF = Generator(F, A, "F")
     
+    for i in range(numberOfProfiles):
+        GM.generate_profiles()
+        GF.generate_profiles()
 
-class Profile:
-    def __init__(self):
-        self.id = ""
-        self.name = ""
-        self.lastName = ""
-        self.birthDay = {
-                        "Day": "0",
-                        "Month": "0",
-                        "Year": "0000"
-                        }
-        self.password = ""
-
-        pass
-
-    pass
 
 if __name__ == "__main__":
-    Test = Dataset("hombres.csv")
-    Test2 = Dataset("mujeres.csv")
+    M = Dataset("hombres.csv")
+    # M.cleanse_dataset_names()
+
+    F = Dataset("mujeres.csv")
+    # F.cleanse_dataset_names()
+
+    A = Dataset("apellidos.csv")
+    # A.cleanse_dataset_lastnames()
+
+    generator_of_profiles(M, F, A, 5)
+
+
+
+
 
     
