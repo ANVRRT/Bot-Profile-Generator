@@ -42,7 +42,7 @@ if __name__ == "__main__":
     A = Dataset("apellidos.csv")
     # A.cleanse_dataset_lastnames()
 
-    generator_of_profiles(M, F, A, 5)
+    generator_of_profiles(M, F, A, 1)
 
 
 

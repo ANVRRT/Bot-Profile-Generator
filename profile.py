@@ -93,17 +93,12 @@ class Profile:
             r2 = requests.get("https://thispersondoesnotexist.com/image").content
             try:
                 try:
-                    # print("DOWNLOAD")
-                    # possibility of decode
                     r2 = str(r2, 'utf-8')
 
                 except UnicodeDecodeError:
-
-                    # After checking above condition, Image Download start
                     with open(f"./Profiles/{self.id}/{i}.jpg", "wb+") as f:
                         f.write(r2)
 
-                    # counting number of image downloaded
             except:
                 pass
             time.sleep(0.2)
@@ -112,18 +107,6 @@ class Profile:
         filePath = self.path + self.id + ".txt"
         file = OSManager.create_file(filePath, output = True)
 
-        # self.id = ""
-        # self.name = name
-        # self.lastName = lastName
-        # self.age = age
-        # self.birthDate = {
-        #                 "Day": "0",
-        #                 "Month": "0",
-        #                 "Year": "0000"
-        #                 }
-        # self.gender = gender
-        # self.password = ""
-        # self.path = ""
         firstLine =  f"ID        : {self.id} \n"
         secondLine = f"Name      : {self.name} \n"
         thirdLine =  f"lastName  : {self.lastName} \n"
@@ -143,6 +126,7 @@ class Profile:
         file.write(seventhLine)
         file.write(eightLine)
         file.write(ninethLine)
+        
         file.close()
 
 

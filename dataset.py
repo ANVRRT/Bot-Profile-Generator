@@ -5,17 +5,7 @@ class Dataset:
     
     def __init__(self, fileName): # names = True
         self.pathRaw = f"./RawDatasets/{fileName}"
-        self.path = f"./Datasets/{fileName}"
-        # if names:
-        #     self.cleanse_dataset_names()
-        # else:
-        #     self.cleanse_dataset_lastnames()
-
-
-
-        # self.rawPath = 
-        pass
-    
+        self.path = f"./Datasets/{fileName}"  
 
     def get_numberOf_registries(self):
         return len(self.pandasDataset.index)
@@ -46,7 +36,6 @@ class Dataset:
         
         dataset.to_csv(self.path, index = False)
         self.pandasDataset = dataset
-        # print(dataset)
 
     def cleanse_dataset_lastnames(self):
         rawDataset = OSManager.open_pandas_csv_file(self.pathRaw)
@@ -67,4 +56,3 @@ class Dataset:
         
         dataset.to_csv(self.path, index = False)
         self.pandasDataset = dataset
-        # print(dataset)
